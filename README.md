@@ -58,5 +58,5 @@ cd VRP-explorations && pip install -r vehicle_routing/requirements.txt
 3. Fisher, Marshall L., Jaikumar, Ramchandran, *A generalized assignment heuristic for vehicle routing* (1981)
 4. The [QOSF cohort - 3 project](https://github.com/VGGatGitHub/QOSF-cohort3) by Shantom, Aniket and Avneesh based on this topic
 5. [Misha Lavrov's lecture](https://faculty.math.illinois.edu/~mlavrov/slides/482-spring-2020/slides35.pdf) on "Travelling Salesman Problem"
-6. (https://en.wikipedia.org/wiki/Vehicle_routing_problem)] Vehicle routing problem - Wikipedia<br>
-7. (https://en.wikipedia.org/wiki/DBSCAN)] DBSCAN - Wikipedia
+6. [Vehicle routing problem - Wikipedia](https://en.wikipedia.org/wiki/Vehicle_routing_problem)
+7. [DBSCAN - Wikipedia](https://en.wikipedia.org/wiki/DBSCAN)
