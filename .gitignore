@@ -1,0 +1,5 @@
+vrp_sumo/.idea
+vrp_sumo/__pycache__
+vrp_sumo/scenario_2
+vehicle_routing/__pycache__
+vehicle_routing/.ipynb_checkpoints
