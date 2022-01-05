@@ -4,9 +4,9 @@
 - Mentor: Dr. Vesselin G. Gueorguiev
 - Mentees:
     - **Asish Kumar Mandoi**, *Junior Undergraduate at Indian Institute of Technology Kanpur, Department of Electrical Engineering*
+      - [Website](https://asishmandoi.github.io/)
       - [LinkedIn](https://www.linkedin.com/in/asish-mandoi-4178581b4/)
       - [GitHub](https://github.com/AsishMandoi)
-      - [Resume](https://drive.google.com/file/d/1J34OVkYKVrQjxndY_oPV-kW02WMCqfgg/view?usp=sharing)
     - **Arya Bhatta**, *Junior Undergraduate at Indian Institute of Technology Kanpur, Department of Electrical Engineering*
       - [Resume](https://drive.google.com/file/d/1MSddzwGTJxjNEGhw2eMKC9z8VLGYU6vR/view?usp=sharing)
 
@@ -16,19 +16,21 @@ Vehicle routing is a challenging logistics management problem. More precisely, i
 - Generalises **The Travelling Salesman Problem (TSP)**.
 
 ## Project Description
-1. We started from the simplest version of the VRP, implemented two different solvers for it:
+This project was primarily focussed on improving the applicability of solvers for the Vehicle Routing Problem (VRP) for larger number of customers and vehicles by using minimal number of qubits. We implemented two different kinds of solvers for VRP, a non-clustering solver that gives exact solution for the simplest variant of the VRP for smaller datasets, and a clustering based solver that gives approximate solution for the VRP for larger datasets. We compared the accuracy and the runtimes of the two solvers with those of the exact solutions for VRP obtained by implementing the same solvers classically using [Google's OR-Tools](https://developers.google.com/optimization).
+
+<!-- 1. We started from the simplest variant of the VRP, implemented two different kinds of solvers for it.
     - Route Activation Solver (RAS)
     - Density-Based Spatial Clustering Of Applications with Noise (DBSCAN) Solver (DBSS)
 2. Kept generalizing the solvers by enabling them to solve other variants like
     - Capacitated Vehicle Routing Problem (CVRP) can be solved by all the solvers
     - Multi-Depot Vehicle Routing Problem (MDVRP) can be solved by DBSCAN Solver
-3. Tackled large sets of customers by first clustering them using DBSCAN approach and then solving smaller instances of problems
+3. Tackled large sets of customers by first clustering them using DBSCAN approach and then solving smaller instances of problems -->
 
 ## Run this repo
 
 ### Locally
 Requirements:
-- Python version >= 3.9.8
+- Python version >= 3.9.7
 - D-Wave Leap account
 
 ```bash
@@ -47,8 +49,7 @@ cd VRP-explorations && pip install -r vehicle_routing/requirements.txt
 ### On D-Wave Leap platform
 
 ## Next steps
-  - Use techniques to achieve better accuracy for larger QUBO problems
-  - Incorporate solutions for other more general variants of the problem
+  - Incorporate solutions for other more general variants of the problem (especially for the CVRPTW)
   - Make a circuit based algorithm from scratch (that does not use any application modules from any libraries) to solve VRP
   - Find potential real life applications for VRP (for e.g. Supply Chain, Traffic Flow Optimization)
 
