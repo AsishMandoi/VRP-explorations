@@ -30,9 +30,13 @@ def solve_vrp(n, m, cost, xc, yc, **params):
         }
     }[params['model']][params['solver']]
 
-    solver = solver_class(n, m, cost, xc, yc)
-    solver.solve()
-    solver.visualize()
+    solver = solver_class(n, m, cost, xc=xc, yc=yc)
+    if params['model'] == 'BQM':
+        solver.solve(solver='neal')
+        solver.visualize(xc=xc, yc=yc)
+    else:
+        solver.solve()
+        solver.visualize()
 
 
 def compare_solvers(n, m, cost, xc, yc, **params):
@@ -44,24 +48,22 @@ def compare_solvers(n, m, cost, xc, yc, **params):
     
     solversList = [RAS_cqm, FQS_cqm, GPS_cqm]   # RAS_bqm, FQS_bqm, DBSS_bqm, SPS_bqm
     
-    sum_min_costs = sum_runtimes = num_vars = [None * len(solversList)]
-    for i in n_iter:
+    sum_min_costs = [0] * len(solversList)
+    sum_runtimes = [0] * len(solversList)
+    num_vars = [None] * len(solversList)
+    for i in range(n_iter):
         for j, solver in enumerate(solversList):
             sol = solver(n, m, cost, xc, yc).solve()
             sum_min_costs[j] += sol['min_cost']
             sum_runtimes[j] += sol['runtime']
             num_vars[j] = sol['num_vars']
+    
     avg_min_costs = [sum_min_costs[i] / n_iter for i in range(len(solversList))]
     avg_runtimes = [sum_runtimes[i] / n_iter for i in range(len(solversList))]
-    approximation_ratios = [avg_min_costs[i] / exact_min_cost]
-    for i in range(len(solversList)):
-        print(
-            solversList[i].__name__, ':' '\t'f'average minimum cost = {avg_min_costs[i]}',
-                                         '\t'f'average runtime = {avg_runtimes[i]}',
-                                         '\t'f'num of variables = {num_vars[i]}',
-                                         '\t'f'approximation ratio = {approximation_ratios[i]}'
-        )
-    return approximation_ratios
+    approximation_ratios = [avg_min_costs[i] / exact_min_cost for i in range(len(solversList))]
+
+    comparison_table = {solversList[i].__name__: {avg_min_costs[i], avg_runtimes[i], num_vars[i], approximation_ratios[i]} for i in range(len(solversList))}
+    return comparison_table
 
 
 def random_routing_instance(n, seed=None):
