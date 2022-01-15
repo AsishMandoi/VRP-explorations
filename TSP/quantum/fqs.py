@@ -78,7 +78,7 @@ class FQS():
 			# tot_cost = sum(self.cost[0][i] * x[i][1] for i in range(1, self.n+1)) + sum(self.cost[i][0] * x[i][self.n] for i in range(1, self.n+1)) + sum(self.cost[i][j] * x[i][t] * x[j][t+1] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for t in range(1, self.n))
 			# print(f'Minimum total cost: {tot_cost}')
 		
-		print(f"\nNumber of variables: {len(sampleset.variables)}")
+		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 
 		return sampleset

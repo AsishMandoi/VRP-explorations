@@ -99,7 +99,7 @@ class GPS():
 			# tot_cost = sum(self.cost[i][j] * x[i][j] for i in range(self.n+1) for j in range(self.n+1) if i != j)
 			# print(f'Minimum total cost: {tot_cost}')
 		
-		print(f"\nNumber of variables: {len(sampleset.variables)}")
+		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 
 		return sampleset
