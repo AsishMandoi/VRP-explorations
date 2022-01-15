@@ -113,21 +113,19 @@ class GPS():
 		if len(feasible_sampleset):
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
 			self.sol = feasible_sampleset.first
-			
-			# ! Does not give the correct minimum cost, since the objective function is not exactly right.
-			# print(f'Minimum total cost: {self.sol.energy}')
+			print(f'Minimum total cost: {self.sol.energy}')
 		
-			### DONE ABOVE ###
-			# Evaluate cost of the solution
-			x = [[[None] * (self.m+1) for __ in range(self.n+1)] for ___ in range(self.n+1)]
-			varList = [var for var in self.sol.sample if var.split('.')[0] == 'x' and var.split('.')[3] == '1']
-			for var in varList:
-				i=int(var.split('.')[1])
-				j=int(var.split('.')[2])
-				k=int(var.split('.')[4])
-				x[i][j][k] = self.sol.sample[var]
-			tot_cost = sum(self.cost[i][j] * x[i][j][k] for i in range(self.n+1) for j in range(self.n+1) if i != j for k in range(1, self.m+1))
-			print(f'Minimum total cost: {tot_cost}')
+			# ### DONE ABOVE ###
+			# # Evaluate cost of the solution
+			# x = [[[None] * (self.m+1) for __ in range(self.n+1)] for ___ in range(self.n+1)]
+			# varList = [var for var in self.sol.sample if var.split('.')[0] == 'x' and var.split('.')[3] == '1']
+			# for var in varList:
+			# 	i=int(var.split('.')[1])
+			# 	j=int(var.split('.')[2])
+			# 	k=int(var.split('.')[4])
+			# 	x[i][j][k] = self.sol.sample[var]
+			# tot_cost = sum(self.cost[i][j] * x[i][j][k] for i in range(self.n+1) for j in range(self.n+1) if i != j for k in range(1, self.m+1))
+			# print(f'Minimum total cost: {tot_cost}')
 		
 		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
