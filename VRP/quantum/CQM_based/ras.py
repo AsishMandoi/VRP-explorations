@@ -91,29 +91,20 @@ class RAS():
 						self.model.add_constraint(t[j] * y[j][k] - (t[i] + 1) * y[i][k] + self.B*(1 - x[i][j])>= 0)
 
 
-	def solve(self):
+	def solve(self, **params):
 		'''Solve the problem'''
 		
 		sampler = LeapHybridCQMSampler()
-		sampleset = sampler.sample_cqm(self.model, label="Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - RAS")
+		sampleset = sampler.sample_cqm(self.model, label="Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - RAS", time_limit=params['time_limit'])
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 		
 		print('\nROUTE ACTIVATION SOLVER (Constrained Quadratic Model)')
 		if len(feasible_sampleset):
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
-			print(f'Minimum total cost: {self.sol.energy}')
-
-			
-			# # Evaluate cost of the solution
-			# x = [[None] * (self.n+1) for _ in range(self.n+1)]
-			# varList = [var for var in self.sol.sample if var.split('.')[0] == 'x']
-			# for var in varList:
-			# 	i=int(var.split('.')[1])
-			# 	j=int(var.split('.')[2])
-			# 	x[i][j] = self.sol.sample[var]
-			# tot_cost = sum(self.cost[i][j] * x[i][j] for i in range(self.n+1) for j in range(self.n+1) if i != j)
-			# print(f'Minimum total cost: {tot_cost}')
+			print(f'Minimum total cost: {self.sol.energy}')		
+		else:
+			print("No feasible solutions.")
 		
 		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")

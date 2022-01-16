@@ -58,11 +58,11 @@ class FQS():
 			self.model.add_constraint(sum(x[i][t][k] for t in range(1, self.n+1) for k in range(1, self.m+1)) == 1)
 
 
-	def solve(self):
+	def solve(self, **params):
 		'''Solve the problem'''
 		
 		sampler = LeapHybridCQMSampler()
-		sampleset = sampler.sample_cqm(self.model, label=f'Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - FQS')
+		sampleset = sampler.sample_cqm(self.model, label=f'Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - FQS', time_limit=params['time_limit'])
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 		
 		print('\nFULL QUBO SOLVER (Constrained Quadratic Model)')
@@ -103,9 +103,10 @@ class FQS():
 					if var[0] != tmp:
 						tot_cost += self.cost[tmp][var[0]]
 						tmp = var[0]
-				tot_cost += self.cost[tmp][0]
-			
+				tot_cost += self.cost[tmp][0]	
 			print(f'Minimum total cost: {tot_cost}')
+		else:
+			print("No feasible solutions.")
 		
 		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")

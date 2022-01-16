@@ -1,3 +1,4 @@
+from os import times_result
 import numpy as np
 
 from VRP.classical.ras import RAS as ExactSolver
@@ -14,6 +15,10 @@ from VRP.quantum.BQM_based.solution_partition_solver import SolutionPartitionSol
 def solve_vrp(n, m, cost, xc, yc, **params):
     params.setdefault('model', 'CQM')
     params.setdefault('solver', 'ras')
+    params.setdefault('time_limit', 5)
+
+    time_limit = params['time_limit']
+
     solver_class = {
         'CQM': {
             'fqs': FQS_cqm,
@@ -35,14 +40,18 @@ def solve_vrp(n, m, cost, xc, yc, **params):
         solver.solve(solver='neal')
         solver.visualize(xc=xc, yc=yc)
     else:
-        solver.solve()
+        solver.solve(time_limit=time_limit)
         solver.visualize()
 
 
 def compare_solvers(n, m, cost, xc, yc, **params):
     params.setdefault('n_iter', 1)
+    params.setdefault('time_limit', 5)
+
     n_iter = params['n_iter']
+    time_limit = params['time_limit']
     
+
     sol = ExactSolver(n, m, cost, xc, yc).formulate_and_solve()
     exact_min_cost = sol['min_cost']
     
@@ -53,7 +62,7 @@ def compare_solvers(n, m, cost, xc, yc, **params):
     num_vars = [None] * len(solversList)
     for i in range(n_iter):
         for j, solver in enumerate(solversList):
-            sol = solver(n, m, cost, xc, yc).solve()
+            sol = solver(n, m, cost, xc, yc).solve(time_limit=time_limit)
             sum_min_costs[j] += sol['min_cost']
             sum_runtimes[j] += sol['runtime']
             num_vars[j] = sol['num_vars']
@@ -62,7 +71,9 @@ def compare_solvers(n, m, cost, xc, yc, **params):
     avg_runtimes = [sum_runtimes[i] / n_iter for i in range(len(solversList))]
     approximation_ratios = [avg_min_costs[i] / exact_min_cost for i in range(len(solversList))]
 
-    comparison_table = {solversList[i].__name__: {avg_min_costs[i], avg_runtimes[i], num_vars[i], approximation_ratios[i]} for i in range(len(solversList))}
+    comparison_table = {solversList[i].__name__: {'avg_min_cost': avg_min_costs[i], 'avg_runtime': avg_runtimes[i], 'num_vars': num_vars[i], 'approximation_ratio': approximation_ratios[i]} for i in range(len(solversList))}
+
+    comparison_table = [{'exact_min_cost': exact_min_cost}, comparison_table]
     return comparison_table
 
 
