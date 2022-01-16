@@ -116,11 +116,13 @@ Requirements:
 # Clone this repo
 git clone https://github.com/AsishMandoi/VRP-explorations.git
 
-# Install all required packages
-cd VRP-explorations && pip install -r requirements.txt
+# Go into the project's main directory and setup the environment to run all codes
+cd VRP-explorations && ./setup.sh
 
-# Run the setup script (sets up a virtual python environment named '_venv_' and runs the dwave setup script)
-./setup.sh
+### The `setup.sh` script consists of the following steps:
+# 1. Create a virtual environment (named '_venv_') if it doesn't exist
+# 2. Install the required packages in the virtual environment
+# 3. Run `dwave setup` to get access to the D-Wave backend solvers
 ```
 *The above process will also run the `dwave setup` command. This will require your authentication token from your account on D-Wave Leap. Learn more about how to [set up your environment](https://docs.ocean.dwavesys.com/en/latest/overview/install.html#set-up-your-environment) for using `dwave-ocean-sdk`.*
 
