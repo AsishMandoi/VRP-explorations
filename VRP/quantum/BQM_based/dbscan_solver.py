@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 from itertools import product
 from collections import Counter
 from matplotlib.colors import rgb2hex
-from vehicle_routing import VehicleRouter
-from dbscan import DBSCAN
+from .vehicle_routing import VehicleRouter
+from .dbscan import DBSCAN
 from qiskit_optimization import QuadraticProgram
 
-class DbscanSolver(VehicleRouter):
+class DBSCANSolver(VehicleRouter):
 
     """Density-Based Spatial Clustering of Applications with Noise (DBSCAN) Solver implementation."""
 

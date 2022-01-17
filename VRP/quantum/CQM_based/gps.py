@@ -109,10 +109,13 @@ class GPS():
 		sampleset = sampler.sample_cqm(self.model, label=f"Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - GPS")
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 
+		print('\nGUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)')
 		if len(feasible_sampleset):
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
 			self.sol = feasible_sampleset.first
-			print(f'Minimum total cost: {self.sol.energy}')
+			
+			# ! Does not give the correct minimum cost, since the objective function is not exactly right.
+			# print(f'Minimum total cost: {self.sol.energy}')
 		
 			### DONE ABOVE ###
 			# Evaluate cost of the solution
@@ -126,10 +129,14 @@ class GPS():
 			tot_cost = sum(self.cost[i][j] * x[i][j][k] for i in range(self.n+1) for j in range(self.n+1) if i != j for k in range(1, self.m+1))
 			print(f'Minimum total cost: {tot_cost}')
 		
-		print(f"\nNumber of variables: {len(sampleset.variables)}")
+		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 
-		return sampleset
+		return {
+			'min_cost': self.sol.energy,
+			'runtime': sampleset.info['run_time']/1000,
+			'num_vars': len(sampleset.variables)
+		}
 
 
 	def visualize(self):

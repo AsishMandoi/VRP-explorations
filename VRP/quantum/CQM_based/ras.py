@@ -25,8 +25,8 @@ class RAS():
 		self.sol = None
 		self.model = dimod.ConstrainedQuadraticModel()
 		self.formulate()
-		self.solve()
-		self.visualize()
+		# self.solve()
+		# self.visualize()
 
 
 	def formulate(self):
@@ -98,6 +98,7 @@ class RAS():
 		sampleset = sampler.sample_cqm(self.model, label="Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - RAS")
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 		
+		print('\nROUTE ACTIVATION SOLVER (Constrained Quadratic Model)')
 		if len(feasible_sampleset):
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
@@ -114,8 +115,13 @@ class RAS():
 			# tot_cost = sum(self.cost[i][j] * x[i][j] for i in range(self.n+1) for j in range(self.n+1) if i != j)
 			# print(f'Minimum total cost: {tot_cost}')
 		
-		print(f"\nNumber of variables: {len(sampleset.variables)}")
+		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
+		return {
+			'min_cost': self.sol.energy,
+			'runtime': sampleset.info['run_time']/1000,
+			'num_vars': len(sampleset.variables)
+		}
 
 
 	def visualize(self):

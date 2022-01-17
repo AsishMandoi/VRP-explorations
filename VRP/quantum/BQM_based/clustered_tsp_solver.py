@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from itertools import product
 from collections import Counter
 from matplotlib.colors import rgb2hex
-from vehicle_routing import VehicleRouter
+from .vehicle_routing import VehicleRouter
 from node_clustering import NodeClustering
 from node_clustering import CapcNodeClustering
 from qiskit_optimization import QuadraticProgram

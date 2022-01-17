@@ -64,6 +64,7 @@ class FQS():
 		sampleset = sampler.sample_cqm(self.model, label=f'Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - FQS')
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 		
+		print('\nFULL QUBO SOLVER (Constrained Quadratic Model)')
 		if len(feasible_sampleset):
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
@@ -81,10 +82,14 @@ class FQS():
 			tot_cost = sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) + sum(self.cost[i][0] * x[i][self.n][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) + sum(self.cost[i][j] * x[i][t][k] * x[j][t+1][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for t in range(1, self.n) for k in range(1, self.m+1))
 			print(f'Minimum total cost: {tot_cost}')
 		
-		print(f"\nNumber of variables: {len(sampleset.variables)}")
+		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 
-		return sampleset
+		return dict({
+			'min_cost': self.sol.energy,
+			'runtime': sampleset.info['run_time']/1000,
+			'num_vars': len(sampleset.variables)
+		})
 
 
 	def visualize(self):

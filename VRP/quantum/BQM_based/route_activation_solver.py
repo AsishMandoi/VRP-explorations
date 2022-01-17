@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from itertools import product
 from matplotlib.colors import rgb2hex
-from vehicle_routing import VehicleRouter
+from .vehicle_routing import VehicleRouter
 from qiskit_optimization import QuadraticProgram
 from qiskit_optimization.infinity import INFINITY
 

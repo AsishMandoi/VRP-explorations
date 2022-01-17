@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 from collections import Counter
 from matplotlib.colors import rgb2hex
-from vehicle_routing import VehicleRouter
 from qiskit_optimization import QuadraticProgram
+from .vehicle_routing import VehicleRouter
 
 
 class FullQuboSolver(VehicleRouter):

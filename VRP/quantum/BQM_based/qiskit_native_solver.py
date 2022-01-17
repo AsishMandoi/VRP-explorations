@@ -3,7 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 from itertools import product
-from vehicle_routing import VehicleRouter
+from .vehicle_routing import VehicleRouter
 from qiskit_optimization.applications import VehicleRouting
 
 

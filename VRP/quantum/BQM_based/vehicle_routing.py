@@ -3,7 +3,7 @@ import dimod
 import time
 
 from functools import partial
-from solver_backend import SolverBackend
+from .solver_backend import SolverBackend
 from dwave.embedding.chain_strength import uniform_torque_compensation
 from qiskit_optimization.converters import QuadraticProgramToQubo
 from qiskit_optimization.algorithms import OptimizationResult

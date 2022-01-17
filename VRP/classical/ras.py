@@ -104,7 +104,13 @@ class RAS():
 
         # Display the solution
         if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-            print(f'Minimum cost: {solver.ObjectiveValue()}')
+            sol = {
+                'min_cost': solver.ObjectiveValue(),
+                'runtime': t*1000
+            }
+
+            print('\nEXACT (CLASSICAL) SOLVER')
+            print(f'Minimum cost: {sol["min_cost"]}')
             self.sol = [[[None] * (self.n+1) for _ in range(self.n+1)]] + [[[None] * (self.m+1) for _ in range(self.n+1)]]
             for i in range(self.n+1):
                 for j in range(self.n+1):
@@ -113,11 +119,10 @@ class RAS():
             for i in range(1, self.n+1):
                 for k in range(1, self.m+1):
                     self.sol[1][i][k] = solver.Value(y[i][k])
-            print(f'\nTime taken to solve: {t*1000:.3f} ms')
-            return solver.ObjectiveValue()
+            print(f'Time taken to solve: {t*1000:.3f} ms')
+            return sol
         else:
             print('No solution found.')
-
 
     def visualize(self):
         '''Visualize solution'''
