@@ -11,37 +11,60 @@ from VRP.quantum.BQM_based.route_activation_solver import RouteActivationSolver 
 from VRP.quantum.BQM_based.dbscan_solver import DBSCANSolver as DBSS_bqm
 from VRP.quantum.BQM_based.solution_partition_solver import SolutionPartitionSolver as SPS_bqm
 
+class VRPSolver:
+    '''Class to solve VRP'''
 
-def solve_vrp(n, m, cost, xc, yc, **params):
-    params.setdefault('model', 'CQM')
-    params.setdefault('solver', 'ras')
-    params.setdefault('time_limit', 5)
+    def __init__(self, n, m, cost, xc, yc, **params):
+        
+        params.setdefault('model', 'CQM')
+        params.setdefault('solver', 'ras')
+        params.setdefault('time_limit', 5)
+        
+        self.n = n
+        self.m = m
+        self.cost = cost
+        self.xc = xc
+        self.yc = yc
+        self.params = params
 
-    time_limit = params['time_limit']
+        self.solver = None
+        self.sol = None
 
-    solver_class = {
-        'CQM': {
-            'fqs': FQS_cqm,
-            'ras': RAS_cqm,
-            'gps': GPS_cqm,
-            # 'dbss': DBSS_cqm,
-            # 'sps': SPS_cqm
-        },
-        'BQM': {
-            'fqs': FQS_bqm,
-            'ras': RAS_bqm,
-            'dbss': DBSS_bqm,
-            'sps': SPS_bqm
-        }
-    }[params['model']][params['solver']]
+    def solve_vrp(self):
 
-    solver = solver_class(n, m, cost, xc=xc, yc=yc)
-    if params['model'] == 'BQM':
-        solver.solve(solver='neal')
-        solver.visualize(xc=xc, yc=yc)
-    else:
-        solver.solve(time_limit=time_limit)
-        solver.visualize()
+        time_limit = self.params['time_limit']
+        model = self.params['model']
+
+        solver = {
+            'CQM': {
+                'fqs': FQS_cqm,
+                'ras': RAS_cqm,
+                'gps': GPS_cqm,
+                # 'dbss': DBSS_cqm,
+                # 'sps': SPS_cqm
+            },
+            'BQM': {
+                'fqs': FQS_bqm,
+                'ras': RAS_bqm,
+                'dbss': DBSS_bqm,
+                'sps': SPS_bqm
+            }
+        }[model][self.params['solver']]
+
+        self.solver = solver(self.n, self.m, self.cost, xc=self.xc, yc=self.yc)
+        if model == 'BQM':
+            self.solver.solve(solver='neal')
+        else:
+            self.solver.solve(time_limit=time_limit)
+
+    def plot_solution(self):
+        if self.solver != None:
+            if self.params['model'] == 'BQM':
+                self.solver.visualize(xc=self.xc, yc=self.yc)
+            else:
+                self.solver.visualize()
+        else:
+            print('No solution to plot!')
 
 
 def compare_solvers(n, m, cost, xc, yc, **params):
