@@ -1,0 +1,4 @@
+matplotlib
+jupyter
+dwave-ocean-sdk
+qiskit-optimization
