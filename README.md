@@ -26,7 +26,7 @@ The first two are non-clustering solvers that give exact solutions for the simpl
 
 *The project was inspired from [this video](https://youtu.be/GK8IT0C9Upk) and [this paper](https://link.springer.com/chapter/10.1007/978-3-030-50433-5_42) by [**Paweł Gora**](https://www.mimuw.edu.pl/~pawelg/) and others. A lot of initial ideas were burrowed from [a project on the same topic](https://github.com/VGGatGitHub/QOSF-cohort3) by **Shantom Borah** and others.*
 
-### Get started
+## Get started
 You may start with the `vrp_results.ipynb` notebook where you can choose to run any solver on any model and get the solutions the Vehicle Routing Problem for any number of clients and vehicles. You can play with the `time_limit` parameter to see how the solver performs on different datasets, but make sure not to set it too high as you may exhaust your limited monthly resources on your D-Wave Leap account.
 
 The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_based` and `BQM_based`. The first one contains the implementations of the solvers using the Constrained Quadratic Model (CQM) and the second one contains the implementations of the solvers using the Binary Quadratic Model (BQM).:
@@ -127,7 +127,7 @@ Requirements:
 git clone https://github.com/AsishMandoi/VRP-explorations.git
 
 # Go into the project's main directory and setup the environment to run all codes
-cd VRP-explorations && ./setup.sh
+cd VRP-explorations && bash setup.sh
 
 ### The `setup.sh` script consists of the following steps:
 # 1. Create a virtual environment (named '_venv_') if it doesn't exist
