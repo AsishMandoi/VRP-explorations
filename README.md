@@ -26,6 +26,14 @@ The first two are non-clustering solvers that give exact solutions for the simpl
 
 *The project was inspired from [this video](https://youtu.be/GK8IT0C9Upk) and [this paper](https://link.springer.com/chapter/10.1007/978-3-030-50433-5_42) by [**Paweł Gora**](https://www.mimuw.edu.pl/~pawelg/) and others. A lot of initial ideas were burrowed from [a project on the same topic](https://github.com/VGGatGitHub/QOSF-cohort3) by **Shantom Borah** and others.*
 
+### Get started
+You may start with the `vrp_results.ipynb` notebook where you can choose to run any solver on any model and get the solutions the Vehicle Routing Problem for any number of clients and vehicles. You can play with the `time_limit` parameter to see how the solver performs on different datasets, but make sure not to set it too high as you may exhaust your limited monthly resources on your D-Wave Leap account.
+
+The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_based` and `BQM_based`. The first one contains the implementations of the solvers using the Constrained Quadratic Model (CQM) and the second one contains the implementations of the solvers using the Binary Quadratic Model (BQM).:
+- Constrained Quadratic Model is a new model recently released by D-Wave Systems that is capable of encoding Quadratically Constrained Quadratic Programs (QCQPs)
+- Binary Quadratic Model is a model that encodes Ising or QUBO problems.
+
+
 <!-- 
 <details>
   <summary><b>Directory Structure</b></summary>
@@ -88,8 +96,10 @@ VRP-explorations
 │   │   └── sps.py
 │   └── quantum
 │       ├── BQM_based
-│       │   ├── ...
-│       │   ├── ...
+│       │   ├── full_qubo_solver.py
+│       │   ├── route_activation_solver.py
+│       │   ├── solution_partition_solver.py
+│       │   ├── dbscan_solver.py
 │       │   └── ...
 │       └── CQM_based
 │           ├── fqs.py
@@ -127,7 +137,7 @@ cd VRP-explorations && ./setup.sh
 *The above process will also run the `dwave setup` command. This will require your authentication token from your account on D-Wave Leap. Learn more about how to [set up your environment](https://docs.ocean.dwavesys.com/en/latest/overview/install.html#set-up-your-environment) for using `dwave-ocean-sdk`.*
 
 ### On D-Wave Leap platform
-.
+*Coming soon*
 
 ## Next steps
 - [ ] Incorporate solutions for other more general variants of the problem (especially for the CVRPTW)
