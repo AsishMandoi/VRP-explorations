@@ -33,14 +33,14 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
 - Constrained Quadratic Model is a new model recently released by D-Wave Systems that is capable of encoding Quadratically Constrained Quadratic Programs (QCQPs)
 - Binary Quadratic Model is a model that encodes Ising or QUBO problems.
 
+<br>
 
-<!-- 
 <details>
-  <summary><b>Directory Structure</b></summary>
+  <summary><code><b>Directory Structure</b></code></summary>
   
   ```bash
   VRP-explorations
-  ├── _venv_        # (virtual python environment)
+  ├── _venv_                # (virtual python environment)
   ├── presentations
   │   ├── notebook_1.ipynb
   │   ├── .
@@ -58,8 +58,10 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
   │   │   └── sps.py
   │   └── quantum
   │       ├── BQM_based
-  │       │   ├── ...
-  │       │   ├── ...
+  │       │   ├── full_qubo_solver.py
+  │       │   ├── route_activation_solver.py
+  │       │   ├── solution_partition_solver.py
+  │       │   ├── dbscan_solver.py
   │       │   └── ...
   │       └── CQM_based
   │           ├── fqs.py
@@ -73,46 +75,9 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
   ├── .gitignore
   └── README.md
   ```
-</details> -->
+</details>
 
-### Directory Structure
-```bash
-VRP-explorations
-├── _venv_        # (virtual python environment)
-├── presentations
-│   ├── notebook_1.ipynb
-│   ├── .
-│   ├── .
-│   └── notebook_9.ipynb
-├── TSP
-│   ├── classical
-│   │   └── gps.py
-│   └── quantum
-│       ├── fqs.py
-│       └── gps.py
-├── VRP
-│   ├── classical
-│   │   ├── ras.py
-│   │   └── sps.py
-│   └── quantum
-│       ├── BQM_based
-│       │   ├── full_qubo_solver.py
-│       │   ├── route_activation_solver.py
-│       │   ├── solution_partition_solver.py
-│       │   ├── dbscan_solver.py
-│       │   └── ...
-│       └── CQM_based
-│           ├── fqs.py
-│           ├── gps.py
-│           └── ras.py
-├── utils.py
-├── tsp_results.py
-├── vrp_results.py
-├── requirements.txt
-├── setup.sh
-├── .gitignore
-└── README.md
-```
+<br>
 
 ## Run this repo
 
