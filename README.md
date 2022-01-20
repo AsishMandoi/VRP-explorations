@@ -76,7 +76,6 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
   └── README.md
   ```
 </details>
-
 <br>
 
 ## Run this repo
