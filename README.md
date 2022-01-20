@@ -33,10 +33,9 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
 - Constrained Quadratic Model is a new model recently released by D-Wave Systems that is capable of encoding Quadratically Constrained Quadratic Programs (QCQPs)
 - Binary Quadratic Model is a model that encodes Ising or QUBO problems.
 
-<br>
-
+### **Directory Structure**
 <details>
-  <summary><code><b>Directory Structure</b></code></summary>
+  <summary><i>(click to expand)</i></summary>
   
   ```bash
   VRP-explorations
@@ -76,7 +75,6 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
   └── README.md
   ```
 </details>
-<br>
 
 ## Run this repo
 
