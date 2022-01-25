@@ -95,14 +95,14 @@ class RAS():
 		'''Solve the problem'''
 		
 		sampler = LeapHybridCQMSampler()
-		sampleset = sampler.sample_cqm(self.model, label="Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - RAS", time_limit=params['time_limit'])
+		sampleset = sampler.sample_cqm(self.model, label=f"Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - RAS", time_limit=params['time_limit'])
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 		
 		print('\nROUTE ACTIVATION SOLVER (Constrained Quadratic Model)')
 		if len(feasible_sampleset):
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
-			print(f'Minimum total cost: {self.sol.energy}')		
+			print(f'Minimum total cost: {self.sol.energy}')
 			print(f"Number of variables: {len(sampleset.variables)}")
 			print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 		

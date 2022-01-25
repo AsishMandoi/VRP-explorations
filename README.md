@@ -126,7 +126,7 @@ cd VRP-explorations && bash setup.sh
 ### On D-Wave Leap platform
 *Coming soon*
 
-## Next steps
+## Future work
 - [ ] Incorporate solutions for other more general variants of the problem (especially for the CVRPTW)
 - [ ] Make a circuit based algorithm from scratch (that does not use any application modules from any libraries) to solve VRP
 - [ ] Find potential real life applications for VRP (for e.g. Supply Chain, Traffic Flow Optimization)
