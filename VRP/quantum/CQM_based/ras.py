@@ -103,13 +103,20 @@ class RAS():
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
 			print(f'Minimum total cost: {self.sol.energy}')		
-		else:
-			print("No feasible solutions.")
+			print(f"Number of variables: {len(sampleset.variables)}")
+			print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 		
+			return {
+				'min_cost': self.sol.energy,
+				'runtime': sampleset.info['run_time']/1000,
+				'num_vars': len(sampleset.variables)
+			}	
+		
+		print("No feasible solutions.")
 		print(f"Number of variables: {len(sampleset.variables)}")
 		print(f"Runtime: {sampleset.info['run_time']/1000:.3f} ms")
 		return {
-			'min_cost': self.sol.energy,
+			'min_cost': None,
 			'runtime': sampleset.info['run_time']/1000,
 			'num_vars': len(sampleset.variables)
 		}
