@@ -27,7 +27,7 @@ The first two are non-clustering solvers that give exact solutions for the simpl
 *The project was inspired from [this video](https://youtu.be/GK8IT0C9Upk) and [this paper](https://link.springer.com/chapter/10.1007/978-3-030-50433-5_42) by [**Paweł Gora**](https://www.mimuw.edu.pl/~pawelg/) and others. A lot of initial ideas were burrowed from [a project on the same topic](https://github.com/VGGatGitHub/QOSF-cohort3) by **Shantom Borah** and others.*
 
 ## Get started
-You may start with the `vrp_results.ipynb` notebook where you can choose to run any solver on any model and get the solutions the Vehicle Routing Problem for any number of clients and vehicles. You can play with the `time_limit` parameter to see how the solver performs on different datasets, but make sure not to set it too high as you may exhaust your limited monthly resources on your D-Wave Leap account.
+You may start with the `solve_vrp.ipynb` notebook where you can choose to run any solver on any model and get the solutions the Vehicle Routing Problem for any number of clients and vehicles. You can play with the `time_limit` parameter to see how the solver performs on different datasets, but make sure not to set it too high as you may exhaust your limited monthly resources on your D-Wave Leap account.
 
 The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_based` and `BQM_based`. The first one contains the implementations of the solvers using the Constrained Quadratic Model (CQM) and the second one contains the implementations of the solvers using the Binary Quadratic Model (BQM).:
 - Constrained Quadratic Model is a new model recently released by D-Wave Systems that is capable of encoding Quadratically Constrained Quadratic Programs (QCQPs)
@@ -67,14 +67,26 @@ The `quantum` subfolder in VRP folder further contains two more subfolders `CQM_
   │           ├── gps.py
   │           └── ras.py
   ├── utils.py
-  ├── tsp_results.py
-  ├── vrp_results.py
+  ├── solve_tsp.py
+  ├── solve_vrp.py
+  ├── vrp_comparision_results.py
+  ├── post_processing_results.py
   ├── requirements.txt
   ├── setup.sh
   ├── .gitignore
   └── README.md
   ```
 </details>
+
+## Results
+The following is a concise comparision of results obtained by running (non-clustering) solvers for [this dataset](https://gitlab.com/qworld/qresearch/qintern2021/21_solving-vehicle-routing-problem-and-its-variants-using-quantum-computing_b/-/tree/master/Datasets%20for%20VRP) (`generate_dataset_for_vrp.ipynb`) using the `ConstrainedQuadraticModel` and `LeapHybridCQMSampler` provided by D-Wave.
+
+![results.png](https://github.com/AsishMandoi/VRP-explorations/blob/main/results/results.png)
+<!-- (https://raw.githubusercontent.com/AsishMandoi/VRP-explorations/main/results/results.png?token=GHSAT0AAAAAABQASY6YGQTRDIHSAZR37MDMYPY5UBQ) -->
+
+The results for more instances can be found in the [results](https://github.com/AsishMandoi/VRP-explorations/tree/main/results) folder.
+
+It can be seen that these solvers give exact solutions for upto 7 nodes (6 clients and 1 depot) and are as good as classical ones in terms of accuracy and runtimes, and acceptable solutions till upto 15 nodes.
 
 ## Run this repo
 
