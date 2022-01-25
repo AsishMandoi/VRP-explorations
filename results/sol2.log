@@ -1,0 +1,297 @@
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 2737.781786348361
+Time taken to solve: 133.610 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+38 feasible solutions of 40.
+Minimum total cost: 2737.781786348361
+Number of variables: 3
+Runtime: 30763.346 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 34.
+Minimum total cost: 2737.781786348361
+Number of variables: 1
+Runtime: 30657.862 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 35.
+Minimum total cost: 2737.781786348361
+Number of variables: 6
+Runtime: 31094.322 ms
+
+n = 2, m = 1, instance = 0
+Classical cost from best known solution: 2737.781786348361
+RAS: 	 quantum cost = 2737.781786348361 	 runtime = 30763.346 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 2737.781786348361 	 runtime = 30657.862 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 2737.781786348361 	 runtime = 31094.322 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 2206.9034269158137
+Time taken to solve: 3.958 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 34.
+Minimum total cost: 2206.9034269158137
+Number of variables: 3
+Runtime: 30666.326 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 32.
+Minimum total cost: 2206.9034269158137
+Number of variables: 1
+Runtime: 30001.004 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 36.
+Minimum total cost: 2206.9034269158137
+Number of variables: 6
+Runtime: 30480.905 ms
+
+n = 2, m = 1, instance = 1
+Classical cost from best known solution: 2206.9034269158137
+RAS: 	 quantum cost = 2206.9034269158137 	 runtime = 30666.326 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 2206.9034269158137 	 runtime = 30001.004 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 2206.9034269158137 	 runtime = 30480.905 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 9.152459908132453
+Time taken to solve: 3.988 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 34.
+Minimum total cost: 9.152459908132453
+Number of variables: 3
+Runtime: 30588.146 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 33.
+Minimum total cost: 9.152459908132453
+Number of variables: 1
+Runtime: 29295.237 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+36 feasible solutions of 40.
+Minimum total cost: 9.152459908132453
+Number of variables: 6
+Runtime: 30246.517 ms
+
+n = 2, m = 1, instance = 2
+Classical cost from best known solution: 9.152459908132453
+RAS: 	 quantum cost = 9.152459908132453 	 runtime = 30588.146 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 9.152459908132453 	 runtime = 29295.237 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 9.152459908132453 	 runtime = 30246.517 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 2323.823106854971
+Time taken to solve: 19.918 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+37 feasible solutions of 41.
+Minimum total cost: 2323.823106854971
+Number of variables: 3
+Runtime: 5258.328 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 34.
+Minimum total cost: 2323.823106854971
+Number of variables: 1
+Runtime: 5459.281 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+34 feasible solutions of 38.
+Minimum total cost: 2323.823106854971
+Number of variables: 6
+Runtime: 6330.260 ms
+
+n = 2, m = 1, instance = 3
+Classical cost from best known solution: 2323.823106854971
+RAS: 	 quantum cost = 2323.823106854971 	 runtime = 5258.328 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 2323.823106854971 	 runtime = 5459.281 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 2323.823106854971 	 runtime = 6330.26 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 2066.0855957539607
+Time taken to solve: 16.221 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+31 feasible solutions of 33.
+Minimum total cost: 2066.0855957539607
+Number of variables: 3
+Runtime: 5561.413 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 34.
+Minimum total cost: 2066.0855957539607
+Number of variables: 1
+Runtime: 5884.240 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+34 feasible solutions of 37.
+Minimum total cost: 2066.0855957539607
+Number of variables: 6
+Runtime: 5979.675 ms
+
+n = 2, m = 1, instance = 4
+Classical cost from best known solution: 2066.0855957539607
+RAS: 	 quantum cost = 2066.0855957539607 	 runtime = 5561.413 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 2066.0855957539607 	 runtime = 5884.24 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 2066.0855957539607 	 runtime = 5979.675 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 941.6056606881865
+Time taken to solve: 16.932 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+36 feasible solutions of 40.
+Minimum total cost: 941.6056606881865
+Number of variables: 3
+Runtime: 5287.746 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 33.
+Minimum total cost: 941.6056606881865
+Number of variables: 1
+Runtime: 3596.670 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+34 feasible solutions of 39.
+Minimum total cost: 941.6056606881865
+Number of variables: 6
+Runtime: 5375.415 ms
+
+n = 2, m = 1, instance = 5
+Classical cost from best known solution: 941.6056606881865
+RAS: 	 quantum cost = 941.6056606881865 	 runtime = 5287.746 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 941.6056606881865 	 runtime = 3596.67 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 941.6056606881865 	 runtime = 5375.415 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 1452.9503979282542
+Time taken to solve: 17.747 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 35.
+Minimum total cost: 1452.9503979282542
+Number of variables: 3
+Runtime: 4823.195 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 34.
+Minimum total cost: 1452.9503979282542
+Number of variables: 1
+Runtime: 4604.785 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 36.
+Minimum total cost: 1452.9503979282542
+Number of variables: 6
+Runtime: 6218.089 ms
+
+n = 2, m = 1, instance = 6
+Classical cost from best known solution: 1452.9503979282542
+RAS: 	 quantum cost = 1452.9503979282542 	 runtime = 4823.195 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 1452.9503979282542 	 runtime = 4604.785 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 1452.9503979282542 	 runtime = 6218.089 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 130.25528370734366
+Time taken to solve: 12.398 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 33.
+Minimum total cost: 130.25528370734366
+Number of variables: 3
+Runtime: 3618.043 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 32.
+Minimum total cost: 130.25528370734366
+Number of variables: 1
+Runtime: 5001.162 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 32.
+Minimum total cost: 130.25528370734366
+Number of variables: 6
+Runtime: 5001.241 ms
+
+n = 2, m = 1, instance = 7
+Classical cost from best known solution: 130.25528370734366
+RAS: 	 quantum cost = 130.25528370734366 	 runtime = 3618.043 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 130.25528370734366 	 runtime = 5001.162 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 130.25528370734366 	 runtime = 5001.241 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 6406.468515890745
+Time taken to solve: 21.180 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 33.
+Minimum total cost: 6406.468515890745
+Number of variables: 3
+Runtime: 4953.350 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+32 feasible solutions of 33.
+Minimum total cost: 6406.468515890745
+Number of variables: 1
+Runtime: 6505.596 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+36 feasible solutions of 40.
+Minimum total cost: 6406.468515890745
+Number of variables: 6
+Runtime: 6340.451 ms
+
+n = 2, m = 1, instance = 8
+Classical cost from best known solution: 6406.468515890745
+RAS: 	 quantum cost = 6406.468515890745 	 runtime = 4953.35 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 6406.468515890745 	 runtime = 6505.596 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 6406.468515890745 	 runtime = 6340.451 	 number of variables = 6 	 approximation ratio = 1.0
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+EXACT (CLASSICAL) SOLVER
+Minimum cost: 1460.205296404562
+Time taken to solve: 8.918 ms
+
+ROUTE ACTIVATION SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 36.
+Minimum total cost: 1460.205296404562
+Number of variables: 3
+Runtime: 6143.574 ms
+
+FULL QUBO SOLVER (Constrained Quadratic Model)
+33 feasible solutions of 33.
+Minimum total cost: 1460.205296404562
+Number of variables: 1
+Runtime: 4600.019 ms
+
+GUILLERMO, PARFAIT, SAÚL SOLVER (Constrained Quadratic Model)
+31 feasible solutions of 33.
+Minimum total cost: 1460.205296404562
+Number of variables: 6
+Runtime: 5537.045 ms
+
+n = 2, m = 1, instance = 9
+Classical cost from best known solution: 1460.205296404562
+RAS: 	 quantum cost = 1460.205296404562 	 runtime = 6143.574 	 number of variables = 3 	 approximation ratio = 1.0
+FQS: 	 quantum cost = 1460.205296404562 	 runtime = 4600.019 	 number of variables = 1 	 approximation ratio = 1.0
+GPS: 	 quantum cost = 1460.205296404562 	 runtime = 5537.045 	 number of variables = 6 	 approximation ratio = 1.0
