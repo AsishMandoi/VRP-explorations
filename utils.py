@@ -1,4 +1,3 @@
-from os import times_result
 import numpy as np
 
 from VRP.classical.ras import RAS as ExactSolver
@@ -86,13 +85,13 @@ def compare_solvers(n, m, cost, xc, yc, **params):
     for i in range(n_iter):
         for j, solver in enumerate(solversList):
             sol = solver(n, m, cost, xc, yc).solve(time_limit=time_limit)
-            sum_min_costs[j] += sol['min_cost']
+            sum_min_costs[j] += sol['min_cost'] if sol['min_cost'] is not None else 0
             sum_runtimes[j] += sol['runtime']
             num_vars[j] = sol['num_vars']
     
-    avg_min_costs = [sum_min_costs[i] / n_iter for i in range(len(solversList))]
+    avg_min_costs = [sum_min_costs[i] / n_iter if sum_min_costs[i] != 0 else None for i in range(len(solversList))]
     avg_runtimes = [sum_runtimes[i] / n_iter for i in range(len(solversList))]
-    approximation_ratios = [avg_min_costs[i] / exact_min_cost for i in range(len(solversList))]
+    approximation_ratios = [avg_min_costs[i] / exact_min_cost if avg_min_costs[i] is not None else None for i in range(len(solversList))]
 
     comparison_table = {solversList[i].__name__: {'avg_min_cost': avg_min_costs[i], 'avg_runtime': avg_runtimes[i], 'num_vars': num_vars[i], 'approximation_ratio': approximation_ratios[i]} for i in range(len(solversList))}
 
