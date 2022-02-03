@@ -80,7 +80,7 @@ class GPS():
 		'''Solve the problem'''
 		
 		sampler = LeapHybridCQMSampler()
-		sampleset = sampler.sample_cqm(self.model, label=f"Travelling Salesman Problem ({self.n} Clients - GPS")
+		sampleset = sampler.sample_cqm(self.model, label=f"Travelling Salesman Problem ({self.n} Clients) - GPS")
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 
 		if len(feasible_sampleset):
