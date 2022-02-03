@@ -29,12 +29,12 @@ class FQS():
 	def formulate(self):
 		'''Formulate the problem'''
 
-		x = [[[None] * (self.m+1) for _ in range(self.n+1)] for __ in range(self.n+1)]
+		x = [[[None] * (self.m+1) for _ in range(self.n+self.m+1)] for __ in range(self.n+1)]
 
 
 		##### Declare variables #####
 		for i in range(self.n+1):
-			for t in range(1, self.n+1):
+			for t in range(1, self.n+self.m+1):
 				for k in range(1, self.m+1):
 					x[i][t][k] = dimod.Binary(label=f'x.{i}.{t}.{k}')
 
@@ -42,21 +42,40 @@ class FQS():
 		##### OBJECTIVE #####
 		self.model.set_objective(
 															sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) +
-								 						 	sum(self.cost[i][0] * x[i][self.n][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) +
-								 					 	 	# sum(self.cost[i][j] * x[i][t][k] * x[j][t+1][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for t in range(1, self.n) for k in range(1, self.m+1))
-															sum(self.cost[i][j] * x[i][ti][k] * x[j][tj][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for ti in range(1, self.n) for tj in range(1, self.n) if tj > ti for k in range(1, self.m+1))
+								 						 	sum(self.cost[i][0] * x[i][self.n+self.m][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) +
+								 					 	 	sum(self.cost[i][j] * x[i][t][k] * x[j][t+1][k] for i in range(self.n+1) for j in range(self.n+1) if i != j for t in range(1, self.n+self.m) for k in range(1, self.m+1))
+															
+															# If constraint 5 does not give a feasible solution, uncomment the following line and comment the above line and constraint 5
+															# sum(self.cost[i][j] * x[i][ti][k] * x[j][tj][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for ti in range(1, self.n) for tj in range(1, self.n) if tj > ti for k in range(1, self.m+1))
 		)
 
 
 		##### CONSTRAINTS #####
-		# Exactly one client node is visited by exactly one vehicle at any given instant.
-		for t in range(1, self.n+1):
-			self.model.add_constraint(sum(x[i][t][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) == 1)
+		# 1. Exactly one client/depot is visited by exactly one vehicle at any given instant.
+		for t in range(1, self.n+self.m+1):
+			self.model.add_constraint(sum(x[i][t][k] for i in range(self.n+1) for k in range(1, self.m+1)) == 1)
 
-		# Each client node is visited by one vehicle throughout all the time steps.
+		# 2. Each client is visited by one vehicle throughout all the time steps.
 		for i in range(1, self.n+1):
-			self.model.add_constraint(sum(x[i][t][k] for t in range(1, self.n+1) for k in range(1, self.m+1)) == 1)
+			self.model.add_constraint(sum(x[i][t][k] for t in range(1, self.n+self.m+1) for k in range(1, self.m+1)) == 1)
 
+		# 3. The depot is visited by each vehicle at some time step.
+		for k in range(1, self.m+1):
+			self.model.add_constraint(sum(x[0][t][k] for t in range(1, self.n+self.m+1)) == 1)
+
+		# 4. Each vehicle visits at least one client.
+		for k in range(1, self.m+1):
+			self.model.add_constraint(sum(x[i][t][k] for i in range(1, self.n+1) for t in range(1, self.n+self.m+1)) >= 1)
+
+		# 5. No other vehicle is allowed to start its journey when another vehicle is already in its journey.
+		for k in range(1, self.m+1):
+			for t in range(1, self.n+self.m):
+				for i in range(1, self.n+1):
+					#	5a. If a vehicle has visited a client in time step t, then it must visit another client or the depot in the next time step.
+					self.model.add_constraint(x[i][t][k] * (1 - sum(x[j][t+1][k] for j in range(self.n+1) if j != i)) == 0)
+
+				#	5b. If a vehicle has visited the depot in time step t, then the journey for that vehicle is over.
+				self.model.add_constraint(x[0][t][k] * sum(x[i][t1][k] for t1 in range(t+1, self.n+self.m+1) for i in range(1, self.n+1)) == 0)
 
 	def solve(self, **params):
 		'''Solve the problem'''
@@ -72,10 +91,9 @@ class FQS():
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
 
-			# !Does not give the correct minimum cost perhaps because the objective function is not entirely correct.
-			# print(f'Minimum total cost: {self.sol.energy}')
+			# !Does not give the correct minimum cost for some reason.
+			print(f'Minimum total cost: {self.sol.energy} ____(X)')
 
-			### DONE ABOVE ###
 			# Evaluate cost of the solution ___________________________________________________________________________(1)
 			# x = [[[None] * (self.m+1) for _ in range(self.n+1)] for __ in range(self.n+1)]
 			# varList = [var for var in self.sol.sample]
