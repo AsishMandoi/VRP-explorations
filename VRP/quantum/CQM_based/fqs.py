@@ -92,7 +92,7 @@ class FQS():
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
 
 			# !Does not give the correct minimum cost for some reason.
-			print(f'Minimum total cost: {self.sol.energy} ____(X)')
+			# print(f'Minimum total cost: {self.sol.energy} ____(X)')
 
 			# Evaluate cost of the solution ___________________________________________________________________________(1)
 			# x = [[[None] * (self.m+1) for _ in range(self.n+1)] for __ in range(self.n+1)]
