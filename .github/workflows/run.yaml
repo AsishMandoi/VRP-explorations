@@ -2,11 +2,11 @@ name: Run VRP Solvers
 
 on:
   push:
-    branches: [ * ]
+    branches: [ main, development ]
   pull_request:
-    branches: [ * ]
+    branches: [ main, development ]
   workflow_dispatch:
-    branches: [ * ]
+    branches: [ main, development ]
 
 jobs:
   build:
