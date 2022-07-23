@@ -60,11 +60,11 @@ class FQS():
 			self.model.add_constraint(x[0][t] + x[0][t+1] <= 1)
 
 
-	def solve(self, **params):
+	def solve(self, time_limit=5, **params):
 		'''Solve the problem'''
 		
 		sampler = LeapHybridCQMSampler()
-		sampleset = sampler.sample_cqm(self.model, label=f'Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - FQS', time_limit=params['time_limit'])
+		sampleset = sampler.sample_cqm(self.model, label=f'Vehicle Routing Problem ({self.n} Clients, {self.m} Vehicles) - FQS', time_limit=time_limit)
 		feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)
 		
 		print('\nFULL QUBO SOLVER (Constrained Quadratic Model)')
