@@ -24,6 +24,6 @@ def vrp_solver(n, m, **params):
   solver = FQS(n, m, cost, xc, yc)
   sol = solver.solve()
 
-  print("approximation ratio:", c_sol['min_cost'] / sol['min_cost'])
+  print("\napproximation ratio:", c_sol['min_cost'] / sol['min_cost'])
 
 vrp_solver(n, m)
