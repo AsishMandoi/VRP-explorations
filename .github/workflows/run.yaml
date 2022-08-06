@@ -25,7 +25,6 @@ jobs:
           echo "Setting up dwave..."
           echo
 
-          dwave install -a
           echo "[defaults]
           token = ${{ secrets.LEAP_API_TOKEN }}" > ~/.config/dwave/dwave.conf
 
