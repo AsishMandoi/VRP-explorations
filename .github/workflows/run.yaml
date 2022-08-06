@@ -20,6 +20,7 @@ jobs:
           echo "Installing requirements..."
           python -m pip install -U pip
           python -m pip install -r requirements.txt
+          python -V
 
           echo
           echo "Setting up dwave..."
