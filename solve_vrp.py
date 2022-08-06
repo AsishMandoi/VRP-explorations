@@ -1,12 +1,12 @@
 from VRP.classical.ras import RAS as ExactSolver
 from VRP.quantum.CQM_based.fqs_v2 import FQS
-from utils import random_routing_instance
+import utils
 
 n=7     # number of clients
 m=3     # number of vehicles
 
 def vrp_solver(n, m, **params):
-  xc, yc, cost = random_routing_instance(n, 0)
+  xc, yc, cost = utils.random_routing_instance(n, 0)
 
   c_solver = ExactSolver(n, m, cost, xc, yc)
   c_sol = c_solver.formulate_and_solve()
