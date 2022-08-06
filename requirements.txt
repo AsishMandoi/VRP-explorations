@@ -1,4 +1,5 @@
 matplotlib
 jupyter
 dwave-ocean-sdk
+ortools
 qiskit-optimization
