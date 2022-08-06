@@ -10,11 +10,37 @@ on:
 
 jobs:
   build:
-    runs-on: alpine-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - name: Install VRP Solvers
-        run: pip install -r requirements.txt
+      - name: Setup
+        run: |
+          echo "Hello World!"
+          echo
+
+          if [ -d "_venv_" ] ; then
+            echo "Existing virtual environment found."
+          else
+            echo "Creating new virtual environment..."
+            python -m venv _venv_
+          fi
+
+          source _venv_/Scripts/activate
+
+          echo
+          echo "Installing requirements..."
+          python -m pip install -U pip
+          python -m pip install -r requirements.txt
+
+          echo
+          echo "Running 'dwave setup'..."
+          echo
+
+          dwave setup
+
+          echo
+          echo "You're all set!"
+      # - name: install requirements
+      #   run: pip install -r requirements.txt
       - name: Run VRP Solvers
-        run: python3 solve_vrp.py
+        run: python solve_vrp.py
