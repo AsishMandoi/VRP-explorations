@@ -25,11 +25,11 @@ jobs:
           echo "Running 'dwave setup'..."
           echo
 
-          dwave setup
+          dwave install -a
+          echo "[defaults]  
+          token = ${{ secrets.LEAP_API_TOKEN }}"
 
           echo
           echo "You're all set!"
-      # - name: install requirements
-      #   run: pip install -r requirements.txt
       - name: Run VRP Solvers
         run: python solve_vrp.py
