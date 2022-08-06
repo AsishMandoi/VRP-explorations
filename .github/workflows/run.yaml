@@ -25,7 +25,7 @@ jobs:
             python -m venv _venv_
           fi
 
-          source _venv_/Scripts/activate
+          source ./_venv_/Scripts/activate
 
           echo
           echo "Installing requirements..."
