@@ -1,5 +1,10 @@
-# virtual environment
-/_venv_
+# virtual environment(s)
+py3.6_venv
+py3.9_venv
+
+tmp.ipynb
+fqstw_x.py
+fqstw_x_.py
 
 __pycache__
 .ipynb_checkpoints
