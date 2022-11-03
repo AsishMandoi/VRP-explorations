@@ -7,7 +7,7 @@ from neal import SimulatedAnnealingSampler
 from dwave.system import LeapHybridCQMSampler
 
 '''
-Solving a custom formulation (FQS) of VRP using LeapHybridCQMSampler
+Solving a custom formulation (Full Qubo Solver) of VRPTW using LeapHybridCQMSampler
 '''
 
 class FQSTW():
@@ -20,113 +20,79 @@ class FQSTW():
 		self.xc = xc
 		self.yc = yc
 		self.tw = tw
-		self.A_max = 30
-		self.W_max = 30
+		self.A_max = tw[0][1] * 5
+		self.D_max = tw[0][1] * 5
 		self.sol = None
 		self.model = dimod.ConstrainedQuadraticModel()
 		self.formulate()
-		# self.solve()
-		# self.visualize()
 
 
 	def formulate(self):
 		'''Formulate the problem'''
 
-		x = [[[None] * (self.m+1) for _ in range(self.n+self.m+1)] for __ in range(self.n+1)]
-		a = [[None] * (self.m+1) for _ in range(self.n+self.m+1)]
-		w = [[None] * (self.m+1) for _ in range(self.n+self.m+1)]
-
-
+		x = [[None] * (self.n+self.m+1) for _ in range(self.n+1)]
+		a = [None] * (self.n+self.m+1)
+		d = [None] * (self.n+self.m+1)
+		
 		##### Declare variables #####
-		for k in range(1, self.m+1):
-			for t in range(1, self.n+self.m+1):
-				for i in range(self.n+1):
-					x[i][t][k] = dimod.Binary(label=f'x.{i}.{t}.{k}')
-				
-				w[t][k] = dimod.Integer(lower_bound=0, upper_bound=self.W_max, label=f'w.{t}.{k}')
-				a[t][k] = dimod.Integer(lower_bound=0, upper_bound=self.A_max, label=f'a.{t}.{k}')
+		for t in range(self.n+self.m+1):
+			for i in range(self.n+1):
+				if t==0 or t==self.n+self.m:
+					x[i][t] = 0
+				else:
+					x[i][t] = dimod.Binary(label=f'x.{i}.{t}')
 			
+			if t!=0:
+				d[t] = dimod.Integer(lower_bound=0, upper_bound=self.D_max, label=f'd.{t}')
+				a[t] = dimod.Integer(lower_bound=0, upper_bound=self.A_max, label=f'a.{t}')
+		
+		x[0][0] = 1								# At the zero-th time step the first vehicle is at the depot
+		x[0][self.m+self.n] = 1		# At the final time step the last vehicle is at the depot
+		a[0] = -1									# Arrival time at the depot before the routing starts
+		d[0] = 0									# Departure time at the depot (THE START OF THE ROUTING)
+		
 		##### OBJECTIVE #####
-		self.model.set_objective(
-															sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1) for k in range(1, self.m+1))
-								 						 	+ sum(self.cost[i][0] * x[i][self.n+self.m][k] for i in range(1, self.n+1) for k in range(1, self.m+1))
-								 					 	 	+ sum(self.cost[i][j] * x[i][t][k] * x[j][t+1][k] for i in range(self.n+1) for j in range(self.n+1) if i != j for t in range(1, self.n+self.m) for k in range(1, self.m+1))
-															
-															# If constraint 5 does not give a feasible solution, uncomment the following line and comment the above line and constraint 5
-															# + sum(self.cost[i][j] * x[i][ti][k] * x[j][tj][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for ti in range(1, self.n) for tj in range(1, self.n) if tj > ti for k in range(1, self.m+1))
-		)
-
-
+		self.model.set_objective(sum(self.cost[i][j] * x[i][t] * x[j][t+1] for i in range(self.n+1) for j in range(self.n+1) for t in range(self.n+self.m)))
+		
 		##### CONSTRAINTS #####
 		# 1. Exactly one client/depot is visited by exactly one vehicle at any given instant.
-		for t in range(1, self.n+self.m+1):
-			self.model.add_constraint(sum(x[i][t][k] for i in range(self.n+1) for k in range(1, self.m+1)) == 1)
+		for t in range(1, self.n+self.m):
+			self.model.add_constraint(sum(x[i][t] for i in range(self.n+1)) == 1)
 
-		# 2. Each client is visited by one vehicle throughout all the time steps.
+		# 2. Each client is visited by one vehicle throughout all the time steps during the delivery.
 		for i in range(1, self.n+1):
-			self.model.add_constraint(sum(x[i][t][k] for t in range(1, self.n+self.m+1) for k in range(1, self.m+1)) == 1)
+			self.model.add_constraint(sum(x[i][t] for t in range(1, self.n+self.m)) == 1)
 
-		# 3. The depot is visited by each vehicle at some time step.
-		for k in range(1, self.m+1):
-			self.model.add_constraint(sum(x[0][t][k] for t in range(1, self.n+self.m+1)) == 1)
+		# 3. The depot is visited (returned to) by m vehicles throughout the delivery process.
+		self.model.add_constraint(sum(x[0][t] for t in range(1, self.n+self.m+1)) == self.m)
 
-		# 4. Each vehicle visits at least one client.
-		for k in range(1, self.m+1):
-			self.model.add_constraint(sum(x[i][t][k] for i in range(1, self.n+1) for t in range(1, self.n+self.m+1)) >= 1)
-
-		# 5. No other vehicle is allowed to start its journey when another vehicle is already in its journey.
-		for k in range(1, self.m+1):
-			for t in range(1, self.n+self.m):
-				for i in range(1, self.n+1):
-					#	5a. If a vehicle has visited a client in time step t, then it must visit another client or the depot in the next time step.
-					self.model.add_constraint(x[i][t][k] * (1 - sum(x[j][t+1][k] for j in range(self.n+1) if j != i)) == 0)
-
-				#	5b. If a vehicle has visited the depot in time step t, then the journey for that vehicle is over.
-				self.model.add_constraint(x[0][t][k] * sum(x[i][tau][k] for tau in range(t+1, self.n+self.m+1) for i in range(1, self.n+1)) == 0)
+		# 4. Each vehicle visits at least one client. (No vehicle starts from the depot and ends up in the depot in the next immediate step)
+		for t in range(self.m+self.n):
+			self.model.add_constraint(x[0][t] + x[0][t+1] <= 1)
 
 		## Time Window constraints
-		for k in range(1, self.m+1):
-			for t in range(1, self.m+self.n):
-				self.model.add_constraint(x[0][t][k] * a[t][k] == 0)
-				self.model.add_constraint(x[0][t][k] * w[t][k] == 0)
-			self.model.add_constraint(a[self.m+self.n][k] == 0)
-			self.model.add_constraint(w[self.m+self.n][k] == 0)
-		
-		for k in range(1, self.m+1):
-			# self.model.add_constraint(a[1][k] - sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1)) == 0)
-			self.model.add_constraint(a[1][k] - sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1)) + self.W_max >= 0)
-			self.model.add_constraint(a[1][k] - sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1)) - self.W_max <= 0)
-		
-		for t in range(2, self.m+self.n+1):
-			for k in range(1, self.m+1):
-				# self.model.add_constraint(
-				# 	a[t][k]
-				# 	- a[t-1][k]
-				# 	- w[t-1][k]
-				# 	- sum(self.cost[i][j] * x[i][t-1][k] * x[j][t][k] for i in range(self.n+1) for j in range(self.n+1) if i != j)
-				# 	== 0
-				# )
-				self.model.add_constraint(
-					a[t][k]
-					- a[t-1][k]
-					- w[t-1][k]
-					- sum(self.cost[i][j] * x[i][t-1][k] * x[j][t][k] for i in range(self.n+1) for j in range(self.n+1) if i != j)
-					+ self.W_max * (1 - sum(x[i][t-1][k] for i in range(1, self.n+1)))
-					>= 0
-				)
-				self.model.add_constraint(
-					a[t][k]
-					- a[t-1][k]
-					- w[t-1][k]
-					- sum(self.cost[i][j] * x[i][t-1][k] * x[j][t][k] for i in range(self.n+1) for j in range(self.n+1) if i != j)
-					- self.W_max * (1 - sum(x[i][t-1][k] for i in range(1, self.n+1)))
-					<= 0
-				)
+		# 5. Departure time at the depot is always set to 0
+		for t in range(1, self.m+self.n+1):
+			# self.model.add_constraint(x[0][t] * d[t] == 0)
+			self.model.add_constraint(d[t] + self.D_max * (1-x[0][t]) >= 0)
+			self.model.add_constraint(d[t] - self.D_max * (1-x[0][t]) <= 0)
 
-		for k in range(1, self.m+1):
-			for t in range(1, self.m+self.n+1):
-				self.model.add_constraint(a[t][k] + w[t][k] - sum(self.tw[i][0] * x[i][t][k] for i in range(self.n+1)) >= 0)
-				self.model.add_constraint(a[t][k] + w[t][k] - sum(self.tw[i][1] * x[i][t][k] for i in range(self.n+1)) <= 0)
+			# Departure time at any client node is always greater than the arrival time
+			for i in range(1, self.n+1):
+				# self.model.add_constraint(x[i][t] * (d[t] - a[t]) >= 0)
+				self.model.add_constraint(d[t] - a[t] - self.A_max * (x[i][t]-1) >= 0)
+		
+		# 6. Arrival time at next node is the sum of departure time at current node, and time to travel from current node to next node
+		for t in range(self.n+self.m):
+			for j in range(self.n+1):
+				# self.model.add_constraint(x[j][t+1] * (a[t+1] - d[t] - sum(self.cost[i][j] * x[i][t] for i in range(self.n+1))) == 0)
+				self.model.add_constraint(a[t+1] - d[t] - sum(self.cost[i][j] * x[i][t] for i in range(self.n+1)) + self.A_max * (1-x[j][t+1]) >= 0)
+				self.model.add_constraint(a[t+1] - d[t] - sum(self.cost[i][j] * x[i][t] for i in range(self.n+1)) - self.A_max * (1-x[j][t+1]) <= 0)
+		
+		# 7. Arrival time at any node lies within the time window (departure time need not)
+		for t in range(1, self.m+self.n+1):
+			self.model.add_constraint(a[t] - sum(self.tw[i][0] * x[i][t] for i in range(self.n+1)) >= 0)
+			self.model.add_constraint(a[t] - sum(self.tw[i][1] * x[i][t] for i in range(self.n+1)) <= 0)
 
 
 	def solve(self, **params):
@@ -143,37 +109,7 @@ class FQSTW():
 			self.sol = feasible_sampleset.first
 			print("{} feasible solutions of {}.".format(len(feasible_sampleset), len(sampleset)))
 
-			# !Does not give the correct minimum cost for some reason.
-			# print(f'Minimum total cost: {self.sol.energy} ____(X)')
-
-			# Evaluate cost of the solution ___________________________________________________________________________(1)
-			# x = [[[None] * (self.m+1) for _ in range(self.n+1)] for __ in range(self.n+1)]
-			# varList = [var for var in self.sol.sample]
-			# for var in varList:
-			# 	i=int(var.split('.')[1])
-			# 	t=int(var.split('.')[2])
-			# 	k=int(var.split('.')[3])
-			# 	x[i][t][k] = self.sol.sample[var]
-			# tot_cost = sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) + sum(self.cost[i][0] * x[i][self.n][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) + sum(self.cost[i][j] * x[i][t][k] * x[j][t+1][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for t in range(1, self.n) for k in range(1, self.m+1))
-			# tot_cost = sum(self.cost[0][i] * x[i][1][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) + sum(self.cost[i][0] * x[i][self.n][k] for i in range(1, self.n+1) for k in range(1, self.m+1)) + sum(self.cost[i][j] * x[i][ti][k] * x[j][tj][k] for i in range(1, self.n+1) for j in range(1, self.n+1) if i != j for ti in range(1, self.n) for tj in range(1, self.n) if tj > ti for k in range(1, self.m+1))
-
-			# Evaluate cost of the solution ___________________________________________________________________________(2)
-			activeVarList = [[] for _ in range(self.m+1)]
-			for i in self.sol.sample:
-				if self.sol.sample[i] == 1:
-					activeVarList[int(i.split('.')[3])].append((int(i.split('.')[1]), int(i.split('.')[2])))
-			
-			for i in range(self.m+1):
-				activeVarList[i] = sorted(activeVarList[i], key=lambda x: x[1])
-
-			tot_cost = 0.0
-			for i in range(1, self.m+1):
-				tmp = 0
-				for var in activeVarList[i]:
-					if var[0] != tmp:
-						tot_cost += self.cost[tmp][var[0]]
-						tmp = var[0]
-				tot_cost += self.cost[tmp][0]	
+			tot_cost = self.sol.energy
 			print(f'Minimum total cost: {tot_cost}')
 		else:
 			print("No feasible solutions.")
@@ -196,15 +132,20 @@ class FQSTW():
 			print('No solution to show!')
 			return
 		
-		activeVarList = [[] for _ in range(self.m+1)]
-		for i in self.sol.sample:
-			if self.sol.sample[i] == 1:
-				activeVarList[int(i.split('.')[3])].append((int(i.split('.')[1]), int(i.split('.')[2])))
-		
-		for i in range(self.m+1):
-			activeVarList[i] = sorted(activeVarList[i], key=lambda x: x[1])
+		activeVars = [(0, 0), (0, self.n+self.m)]
+		for x in self.sol.sample:
+			if self.sol.sample[x] == 1 and x.split('.')[0] == 'x':
+				activeVars.append((int(x.split('.')[1]), int(x.split('.')[2])))
+		activeVars = sorted(activeVars, key=lambda p: p[1])
+
+		visitedNodesByVehicle = [[] for _ in range(self.m+1)]
+		i=0
+		for p in activeVars:
+			if p[0] == 0: i+=1
+			else: visitedNodesByVehicle[i].append(p[0])
 
 		if self.xc is None or self.yc is None:
+			np.random.seed(0)
 			self.xc = (np.random.rand(self.n + 1) - 0.5) * 20
 			self.yc = (np.random.rand(self.n + 1) - 0.5) * 20
 
@@ -227,14 +168,12 @@ class FQSTW():
 		nodelist = [[] for _ in range(self.m+1)]
 		edgelist = [[] for _ in range(self.m+1)]
 		for i in range(1, self.m+1):
-			tmp = 0
-			for var in activeVarList[i]:
-				if var[0] != tmp:
-					if var[0]:
-						nodelist[i].append(var[0])
-					edgelist[i].append((tmp, var[0]))
-					tmp = var[0]
-			edgelist[i].append((tmp, 0))
+			prev = 0
+			for node in visitedNodesByVehicle[i]:
+				nodelist[i].append(node)
+				edgelist[i].append((prev, node))
+				prev = node
+			edgelist[i].append((prev, 0))
 		
 		# Loop over cars and plot other nodes and edges
 		for k in range(1, self.m+1):
