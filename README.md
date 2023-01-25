@@ -10,6 +10,10 @@ Mentees: *The Qubit Players*
     *Junior Undergraduate at Indian Institute of Technology Kanpur, Department of Electrical Engineering*<br>
     [`LinkedIn`](https://www.linkedin.com/in/arya-bhatta-26a877200/)
 
+It is now under development as part of a research group at QWorld.
+
+Any usage of this code is free but do cite this code's authors and the organizations if you use it for research or commercial purposes. Please contact the authors for more information.
+
 ## Introduction
 Vehicle routing is a challenging logistics management problem. More precisely, it is an **NP-hard** combinatorial optimization problem.
 - Problem statement: ***What is the optimal set of routes for a fleet of vehicles to traverse in order to deliver to a given set of customers?***
